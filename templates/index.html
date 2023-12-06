@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transportation Finder</title>
+</head>
+<body>
+    <h1>Transportation Finder</h1>
+
+    <form id="transportationForm">
+        <label for="fromCity">From City:</label>
+        <input type="text" id="fromCity" name="fromCity" required>
+
+        <label for="toCity">To City:</label>
+        <input type="text" id="toCity" name="toCity" required>
+
+        <button type="button" onclick="findBestTransportation()">Find Transportation</button>
+    </form>
+
+    <div id="responseContainer">
+        <p id="responseTime"></p>
+        <pre id="responseContent"></pre>
+        <p id="errorMessage" style="color: red;"></p>
+        <div id="loadingIndicator" style="display: none;">Loading...</div>
+    </div>
+
+    <script>
+        function findBestTransportation() {
+            const fromCity = document.getElementById("fromCity").value;
+            const toCity = document.getElementById("toCity").value;
+
+            document.getElementById("errorMessage").innerText = "";
+            document.getElementById("loadingIndicator").style.display = "block";
+
+            const startTime = new Date().getTime();
+
+            fetch(`/find_best_transportation?from_city=${fromCity}&to_city=${toCity}`)
+                .then(response => {
+                    document.getElementById("loadingIndicator").style.display = "none";
+                    return response.json();
+                })
+                .then(data => {
+                    const endTime = new Date().getTime();
+                    const executionTime = endTime - startTime;
+
+                    document.getElementById("responseTime").innerText = `Execution Time: ${executionTime} milliseconds`;
+
+                    document.getElementById("responseContent").innerText = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                       console.error("Error fetching data:", error);
+                       document.getElementById("responseContent").innerText = "";
+                       document.getElementById("errorMessage").innerText = "Error occurred while fetching data.";
+                       document.getElementById("loadingIndicator").style.display = "none";
+                 });
+        }
+    </script>
+</body>
+</html>

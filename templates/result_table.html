@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transportation Results</title>
+</head>
+<body>
+    <h1>Transportation Results</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Mode</th>
+                <th>Duration</th>
+                <th>From City</th>
+                <th>To City</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+                <tr>
+                    <td>{{ result.mode }}</td>
+                    <td>{{ result.duration }}</td>
+                    <td>{{ result.from_city }}</td>
+                    <td>{{ result.to_city }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
